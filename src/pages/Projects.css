@@ -1,0 +1,508 @@
+/* Page Header */
+.projects-page .page-header {
+  padding: 150px 0 40px;
+  text-align: center;
+  background: linear-gradient(180deg, var(--background-light) 0%, var(--background) 100%);
+}
+
+.projects-page .page-header h1 {
+  font-size: 3.5rem;
+  margin-bottom: 16px;
+}
+
+.projects-page .page-header p {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+}
+
+/* Constellation Section */
+.constellation-section {
+  padding: 20px 0 80px;
+  min-height: 80vh;
+}
+
+.constellation-container {
+  position: relative;
+  max-width: 1400px;
+  margin: 0 auto;
+  height: 70vh;
+  min-height: 500px;
+  background: radial-gradient(ellipse at center, rgba(26, 26, 46, 0.8) 0%, var(--background) 70%);
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Background Stars */
+.stars-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.2); }
+}
+
+/* Constellation Lines */
+.constellation-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.constellation-line {
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 0.15;
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  transition: stroke 0.3s ease, stroke-width 0.3s ease;
+}
+
+.constellation-line.visible {
+  animation: drawLine 1.5s ease forwards;
+}
+
+.constellation-line.active {
+  stroke: url(#lineGradient);
+  stroke: rgba(0, 212, 255, 0.6);
+  stroke-width: 0.25;
+  filter: drop-shadow(0 0 4px rgba(0, 212, 255, 0.5));
+}
+
+@keyframes drawLine {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Constellation Nodes Container */
+.constellation-nodes {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  transition: transform 0.1s ease-out;
+}
+
+/* Individual Node */
+.constellation-node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  opacity: 0;
+  scale: 0;
+  transition: opacity 0.3s ease, scale 0.3s ease;
+}
+
+.constellation-node.visible {
+  animation: nodeAppear 0.6s ease forwards;
+}
+
+@keyframes nodeAppear {
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+.node-glow {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--node-color);
+  border-radius: 50%;
+  filter: blur(20px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.constellation-node.hovered .node-glow,
+.constellation-node.connected .node-glow {
+  opacity: 0.4;
+}
+
+.node-core {
+  width: 20px;
+  height: 20px;
+  background: var(--node-color);
+  border-radius: 50%;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 0 20px var(--node-color);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.constellation-node.hovered .node-core {
+  transform: scale(1.4);
+  box-shadow: 0 0 40px var(--node-color);
+}
+
+.constellation-node.connected .node-core {
+  transform: scale(1.2);
+}
+
+.node-ring {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px solid var(--node-color);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.constellation-node.hovered .node-ring {
+  opacity: 0.6;
+  animation: ringPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes ringPulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+  50% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.2; }
+}
+
+/* Node Label */
+.node-label {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 16px;
+  text-align: center;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+
+.constellation-node.hovered .node-label {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-5px);
+}
+
+.node-title {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.node-subtitle {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* Legend */
+.constellation-legend {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 10;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  box-shadow: 0 0 10px currentColor;
+}
+
+/* Hint */
+.constellation-hint {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  opacity: 0.6;
+  z-index: 10;
+}
+
+/* Modal Overlay */
+.project-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Modal */
+.project-modal {
+  background: var(--background-light);
+  border-radius: 24px;
+  padding: 40px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: modalSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalSlide {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: var(--background);
+  color: var(--text);
+  font-size: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close:hover {
+  background: var(--primary);
+  color: var(--background);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.modal-category {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.modal-date {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.modal-title {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.modal-subtitle {
+  font-size: 1.1rem;
+  color: var(--primary);
+  margin-bottom: 20px;
+}
+
+.modal-description {
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+
+.modal-details h4,
+.modal-tools h4 {
+  font-size: 1rem;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+
+.modal-details ul {
+  margin-bottom: 24px;
+}
+
+.modal-details li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 10px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.modal-details li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gradient);
+}
+
+.tools-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tool-badge {
+  padding: 8px 16px;
+  background: var(--background);
+  border: 1px solid var(--primary);
+  border-radius: 50px;
+  font-size: 0.85rem;
+  color: var(--primary);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .constellation-container {
+    height: 60vh;
+    min-height: 450px;
+  }
+}
+
+@media (max-width: 768px) {
+  .projects-page .page-header {
+    padding: 120px 0 30px;
+  }
+
+  .projects-page .page-header h1 {
+    font-size: 2.5rem;
+  }
+
+  .constellation-container {
+    height: auto;
+    min-height: auto;
+    padding: 40px 20px;
+    border-radius: 16px;
+  }
+
+  .constellation-nodes {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    transform: none !important;
+  }
+
+  .constellation-node {
+    position: relative;
+    left: auto !important;
+    top: auto !important;
+    transform: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    opacity: 1;
+    scale: 1;
+  }
+
+  .constellation-node.visible {
+    animation: none;
+  }
+
+  .node-label {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    margin-top: 12px;
+    opacity: 1;
+  }
+
+  .constellation-node.hovered .node-label {
+    transform: none;
+  }
+
+  .constellation-lines,
+  .stars-bg {
+    display: none;
+  }
+
+  .constellation-legend {
+    position: relative;
+    top: auto;
+    left: auto;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+
+  .constellation-hint {
+    display: none;
+  }
+
+  .project-modal {
+    padding: 28px;
+    max-height: 90vh;
+  }
+
+  .modal-title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .projects-page .page-header h1 {
+    font-size: 2rem;
+  }
+
+  .constellation-nodes {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .project-modal {
+    padding: 24px;
+  }
+
+  .modal-title {
+    font-size: 1.3rem;
+  }
+}

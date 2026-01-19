@@ -1,0 +1,238 @@
+/* Education Section */
+.education-section {
+  padding-top: 40px;
+}
+
+.education-card {
+  background: var(--background-light);
+  border-radius: 20px;
+  padding: 48px;
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  max-width: 800px;
+  margin: 0 auto;
+  transition: var(--transition);
+}
+
+.education-card:hover {
+  border-color: var(--primary);
+  box-shadow: var(--glow-primary);
+}
+
+.education-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.education-content h3 {
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+}
+
+.education-content h4 {
+  font-size: 1.2rem;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+.specialization {
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+}
+
+.education-meta {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.gpa, .graduation-date {
+  padding: 10px 20px;
+  background: var(--background);
+  border-radius: 50px;
+  font-size: 0.9rem;
+}
+
+.gpa {
+  border: 1px solid var(--primary);
+  color: var(--primary);
+}
+
+.graduation-date {
+  border: 1px solid var(--secondary);
+  color: var(--secondary);
+}
+
+/* Skills Section */
+.skills-section {
+  background: var(--background-light);
+}
+
+.skills-bars {
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.skill-bar-item {
+  animation: fadeInUp 0.6s ease forwards;
+  opacity: 0;
+}
+
+.skill-bar-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.skill-bar-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+.skill-bar-percent {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.skill-bar-track {
+  height: 10px;
+  background: var(--background);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.skill-bar-fill {
+  height: 100%;
+  background: var(--gradient);
+  border-radius: 10px;
+  transition: width 1s ease;
+  position: relative;
+}
+
+.skill-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Software Section */
+.software-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 24px;
+}
+
+.software-card {
+  background: var(--background-light);
+  padding: 32px 24px;
+  border-radius: 16px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: var(--transition);
+}
+
+.software-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--primary);
+  box-shadow: var(--glow-primary);
+}
+
+.software-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.software-name {
+  font-size: 1.1rem;
+  margin-bottom: 16px;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.software-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.software-items li {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .software-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .education-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 32px;
+  }
+
+  .education-content h3 {
+    font-size: 1.4rem;
+  }
+
+  .education-meta {
+    justify-content: center;
+  }
+
+  .software-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .education-card {
+    padding: 24px;
+  }
+
+  .education-icon {
+    font-size: 3rem;
+  }
+
+  .education-content h3 {
+    font-size: 1.2rem;
+  }
+
+  .software-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .software-card {
+    padding: 24px 16px;
+  }
+}
