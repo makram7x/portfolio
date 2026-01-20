@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
-import { BriefcaseIcon, RocketIcon, SparklesIcon } from '../components/Icons';
-import './Experience.css';
+import { useEffect, useRef, useState } from "react";
+import { BriefcaseIcon, RocketIcon, SparklesIcon } from "../components/Icons";
+import "./Experience.css";
 
 const experiences = [
   {
@@ -94,7 +94,7 @@ const Experience = () => {
     if (currentSegment >= 0) {
       // Highlight the current card after line animation completes
       const timeout = setTimeout(() => {
-        setReachedCards(prev => {
+        setReachedCards((prev) => {
           const newSet = new Set(prev);
           // Add all cards up to and including current segment
           for (let i = 0; i <= currentSegment; i++) {
@@ -125,7 +125,7 @@ const Experience = () => {
 
           // Card becomes visible when entering viewport
           if (cardTop < windowHeight * 0.85) {
-            setVisibleCards(prev => new Set([...prev, index]));
+            setVisibleCards((prev) => new Set([...prev, index]));
           }
 
           // Determine which segment the line should be at based on card center
@@ -138,17 +138,21 @@ const Experience = () => {
       setCurrentSegment(highestReached);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const getTypeLabel = (type) => {
     switch (type) {
-      case 'professional': return 'Professional';
-      case 'entrepreneurial': return 'Entrepreneurial';
-      case 'freelance': return 'Freelance';
-      default: return type;
+      case "professional":
+        return "Professional";
+      case "entrepreneurial":
+        return "Entrepreneurial";
+      case "freelance":
+        return "Freelance";
+      default:
+        return type;
     }
   };
 
@@ -156,8 +160,12 @@ const Experience = () => {
     <main className="experience-page">
       <section className="page-header">
         <div className="container">
-          <h1>My <span className="accent-text">Journey</span></h1>
-          <p>Follow my path through professional growth and creative exploration</p>
+          <h1>
+            My <span className="accent-text">Journey</span>
+          </h1>
+          <p>
+            Follow my path through professional growth and creative exploration
+          </p>
         </div>
       </section>
 
@@ -170,23 +178,29 @@ const Experience = () => {
             preserveAspectRatio="none"
           >
             <defs>
-              <linearGradient id="curveGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <linearGradient
+                id="curveGradient"
+                x1="0%"
+                y1="0%"
+                x2="0%"
+                y2="100%"
+              >
                 <stop offset="0%" stopColor="var(--primary)" />
                 <stop offset="50%" stopColor="var(--secondary)" />
                 <stop offset="100%" stopColor="var(--primary)" />
               </linearGradient>
               <filter id="glow">
-                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                <feGaussianBlur stdDeviation="2" result="coloredBlur" />
                 <feMerge>
-                  <feMergeNode in="coloredBlur"/>
-                  <feMergeNode in="SourceGraphic"/>
+                  <feMergeNode in="coloredBlur" />
+                  <feMergeNode in="SourceGraphic" />
                 </feMerge>
               </filter>
             </defs>
 
             {/* Starting point dot */}
             <circle
-              className={`start-dot ${currentSegment >= 0 ? 'active' : ''}`}
+              className={`start-dot ${currentSegment >= 0 ? "active" : ""}`}
               cx="900"
               cy="-50"
               r="6"
@@ -223,9 +237,12 @@ const Experience = () => {
               strokeLinecap="round"
               style={{
                 strokeDasharray: pathLength || 3000,
-                strokeDashoffset: currentSegment < 0
-                  ? (pathLength || 3000)
-                  : (pathLength || 3000) - ((currentSegment + 1) / totalCards) * (pathLength || 3000),
+                strokeDashoffset:
+                  currentSegment < 0
+                    ? pathLength || 3000
+                    : (pathLength || 3000) -
+                      ((currentSegment + 1) / totalCards) *
+                        (pathLength || 3000),
               }}
             />
 
@@ -249,12 +266,16 @@ const Experience = () => {
             {experiences.map((exp, index) => (
               <div
                 key={exp.id}
-                ref={el => cardsRef.current[index] = el}
-                className={`journey-card ${index % 2 === 0 ? 'right' : 'left'} ${exp.type} ${visibleCards.has(index) ? 'visible' : ''} ${reachedCards.has(index) ? 'reached' : ''}`}
+                ref={(el) => (cardsRef.current[index] = el)}
+                className={`journey-card ${index % 2 === 0 ? "right" : "left"} ${exp.type} ${visibleCards.has(index) ? "visible" : ""} ${reachedCards.has(index) ? "reached" : ""}`}
               >
                 <div className="journey-card-connector">
                   <div className="connector-dot">
-                    <img src={exp.logo} alt={exp.company} className="connector-image" />
+                    <img
+                      src={exp.logo}
+                      alt={exp.company}
+                      className="connector-image"
+                    />
                   </div>
                 </div>
                 <div className="journey-card-content">
