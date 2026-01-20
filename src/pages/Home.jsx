@@ -14,6 +14,7 @@ import {
   VsCodeIcon,
   BlenderIcon,
 } from '../components/Icons';
+import AnimatedText from '../components/AnimatedText';
 import './Home.css';
 
 const skills = [
@@ -44,7 +45,8 @@ const Home = () => {
           <div className="hero-text">
             <p className="hero-greeting">Hello, I'm</p>
             <h1 className="hero-name">
-              Habiba <span className="gradient-text">Salah</span>
+              <AnimatedText>Habiba </AnimatedText>
+              <AnimatedText className="accent-text" delay={0.5}>Salah</AnimatedText>
             </h1>
             <h2 className="hero-title">Digital Media Specialist</h2>
             <p className="hero-description">
@@ -74,7 +76,8 @@ const Home = () => {
       <section className="about section">
         <div className="container">
           <h2 className="section-title">
-            About <span className="gradient-text">Me</span>
+            <AnimatedText>About </AnimatedText>
+            <AnimatedText className="accent-text" delay={0.25}>Me</AnimatedText>
           </h2>
           <div className="about-content">
             <div className="about-text">
@@ -104,7 +107,8 @@ const Home = () => {
       <section className="skills section">
         <div className="container">
           <h2 className="section-title">
-            My <span className="gradient-text">Skills</span>
+            <AnimatedText>My </AnimatedText>
+            <AnimatedText className="accent-text" delay={0.15}>Skills</AnimatedText>
           </h2>
           <div className="skills-grid">
             {skills.map((skill, index) => (
@@ -142,7 +146,10 @@ const Home = () => {
       {/* CTA Section */}
       <section className="cta section">
         <div className="container cta-content">
-          <h2>Let's Work <span className="gradient-text">Together</span></h2>
+          <h2>
+            <AnimatedText>Let's Work </AnimatedText>
+            <AnimatedText className="accent-text" delay={0.45}>Together</AnimatedText>
+          </h2>
           <p>Have a project in mind? I'd love to hear about it.</p>
           <Link to="/contact" className="btn btn-primary">Start a Conversation</Link>
         </div>

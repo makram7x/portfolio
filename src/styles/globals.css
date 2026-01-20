@@ -1,26 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
 
 :root {
-  /* Colors */
-  --primary: #00D4FF;
-  --secondary: #7B2CBF;
-  --background: #0D0D0D;
-  --background-light: #1A1A2E;
-  --text: #FFFFFF;
-  --text-muted: #A0A0A0;
-  --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  /* Colors - Warm Editorial Palette */
+  --primary: #C17F59;
+  --primary-light: #D4A484;
+  --secondary: #5C6B5E;
+  --background: #FAF8F5;
+  --background-alt: #F3EFE9;
+  --surface: #FFFFFF;
+  --text: #2C2C2C;
+  --text-muted: #6B6B6B;
+  --text-light: #9A9A9A;
+  --border: #E8E4DE;
 
   /* Typography */
-  --font-display: 'Space Grotesk', sans-serif;
-  --font-body: 'Inter', sans-serif;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'DM Sans', -apple-system, sans-serif;
 
-  /* Spacing */
-  --container-width: 1200px;
-  --section-padding: 100px;
+  /* Spacing - Generous whitespace */
+  --container-width: 1100px;
+  --section-padding: 120px;
 
   /* Effects */
-  --glow-primary: 0 0 20px rgba(0, 212, 255, 0.3);
-  --glow-secondary: 0 0 20px rgba(123, 44, 191, 0.3);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.08);
   --transition: all 0.3s ease;
 }
 
@@ -38,14 +42,18 @@ body {
   font-family: var(--font-body);
   background-color: var(--background);
   color: var(--text);
-  line-height: 1.6;
+  line-height: 1.7;
   overflow-x: hidden;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.2;
+  color: var(--text);
+  letter-spacing: -0.02em;
 }
 
 a {
@@ -65,59 +73,62 @@ img {
 .container {
   max-width: var(--container-width);
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 24px;
 }
 
 .section {
   padding: var(--section-padding) 0;
 }
 
-.gradient-text {
-  background: var(--gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.accent-text {
+  color: var(--primary);
 }
 
 .btn {
   display: inline-block;
-  padding: 14px 32px;
-  border-radius: 8px;
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 1rem;
+  padding: 16px 36px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   cursor: pointer;
   transition: var(--transition);
   border: none;
 }
 
 .btn-primary {
-  background: var(--gradient);
-  color: var(--text);
-  box-shadow: var(--glow-primary);
+  background: var(--text);
+  color: var(--background);
 }
 
 .btn-primary:hover {
+  background: var(--primary);
   transform: translateY(-2px);
-  box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
 }
 
 .btn-outline {
   background: transparent;
-  border: 2px solid var(--primary);
-  color: var(--primary);
+  border: 1.5px solid var(--text);
+  color: var(--text);
 }
 
 .btn-outline:hover {
-  background: var(--primary);
+  background: var(--text);
   color: var(--background);
+}
+
+/* Selection */
+::selection {
+  background: var(--primary-light);
+  color: var(--text);
 }
 
 /* Animations */
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -125,35 +136,18 @@ img {
   }
 }
 
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-@keyframes glow {
-  0%, 100% {
-    box-shadow: var(--glow-primary);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(0, 212, 255, 0.6);
-  }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .animate-fadeInUp {
   animation: fadeInUp 0.6s ease forwards;
 }
 
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
 /* Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -161,10 +155,10 @@ img {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--secondary);
-  border-radius: 4px;
+  background: var(--border);
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
+  background: var(--text-light);
 }

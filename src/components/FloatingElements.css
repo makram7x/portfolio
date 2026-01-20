@@ -1,0 +1,117 @@
+.floating-elements {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.floating-element {
+  position: absolute;
+  will-change: transform;
+  transition: transform 0.1s linear;
+}
+
+/* Floating animations for subtle movement */
+.float-slow {
+  animation: floatSlow 8s ease-in-out infinite;
+}
+
+.float-medium {
+  animation: floatMedium 6s ease-in-out infinite;
+}
+
+.float-fast {
+  animation: floatFast 4s ease-in-out infinite;
+}
+
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+}
+
+@keyframes floatMedium {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-8px) rotate(-1deg);
+  }
+  66% {
+    transform: translateY(-4px) rotate(1deg);
+  }
+}
+
+@keyframes floatFast {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-5px) rotate(1deg);
+  }
+  75% {
+    transform: translateY(-3px) rotate(-1deg);
+  }
+}
+
+/* SVG specific styling */
+.floating-element svg {
+  display: block;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.03));
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .floating-element {
+    transform: none !important;
+    transition: none;
+    animation: none !important;
+  }
+
+  .float-slow,
+  .float-medium,
+  .float-fast {
+    animation: none;
+  }
+}
+
+/* Hide on mobile for performance */
+@media (max-width: 768px) {
+  .floating-elements {
+    display: none;
+  }
+}
+
+/* Reduce complexity on tablets */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .floating-element svg {
+    opacity: 0.6;
+  }
+
+  .float-slow,
+  .float-medium,
+  .float-fast {
+    animation: none;
+  }
+}
+
+/* Fade in on load */
+.floating-elements {
+  animation: fadeInElements 1.5s ease-out forwards;
+}
+
+@keyframes fadeInElements {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

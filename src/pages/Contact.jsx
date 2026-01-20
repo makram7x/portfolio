@@ -10,32 +10,32 @@ import './Contact.css';
 
 const contactMethods = [
   {
-    name: 'Email',
+    name: "Email",
     Icon: EmailIcon,
-    value: 'hbibasalahm@gmail.com',
-    href: 'mailto:hbibasalahm@gmail.com',
-    description: 'Drop me an email anytime',
+    value: "hbibasalahm@gmail.com",
+    href: "mailto:hbibasalahm@gmail.com",
+    description: "Drop me an email anytime",
   },
   {
-    name: 'Phone',
+    name: "Phone",
     Icon: PhoneIcon,
-    value: '+973 38800575',
-    href: 'tel:+97338800575',
-    description: 'Available for calls',
+    value: "+973 38800575",
+    href: "tel:+97338800575",
+    description: "Available for calls",
   },
   {
-    name: 'LinkedIn',
+    name: "LinkedIn",
     Icon: LinkedInIcon,
-    value: 'Habiba Salah',
-    href: 'https://linkedin.com',
-    description: 'Let\'s connect professionally',
+    value: "Habiba Salah",
+    href: "https://www.linkedin.com/in/habiba-salah-00718a268/",
+    description: "Let's connect professionally",
   },
   {
-    name: 'Behance',
+    name: "Behance",
     Icon: BehanceIcon,
-    value: 'View My Portfolio',
-    href: 'https://behance.net',
-    description: 'See more of my work',
+    value: "View My Portfolio",
+    href: "https://www.behance.net/habibasalah7",
+    description: "See more of my work",
   },
 ];
 
@@ -44,7 +44,7 @@ const Contact = () => {
     <main className="contact-page">
       <section className="page-header">
         <div className="container">
-          <h1>Get In <span className="gradient-text">Touch</span></h1>
+          <h1>Get In <span className="accent-text">Touch</span></h1>
           <p>Let's discuss your next project or just say hello</p>
         </div>
       </section>
@@ -54,7 +54,7 @@ const Contact = () => {
           {/* Hero Message */}
           <div className="contact-hero">
             <div className="contact-hero-content">
-              <h2>Let's Create Something <span className="gradient-text">Amazing</span> Together</h2>
+              <h2>Let's Create Something <span className="accent-text">Amazing</span> Together</h2>
               <p>
                 I'm always excited to collaborate on new projects, whether it's designing
                 a brand identity, creating a stunning UI/UX, or managing your social media presence.

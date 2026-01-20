@@ -12,7 +12,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="container navbar-container">
         <NavLink to="/" className="logo" onClick={closeMenu}>
-          <span className="gradient-text">HS</span>
+          <span className="accent-text">HS</span>
         </NavLink>
 
         <button className={`menu-toggle ${isOpen ? 'active' : ''}`} onClick={toggleMenu}>
