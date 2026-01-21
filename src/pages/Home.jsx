@@ -125,7 +125,10 @@ const Home = () => {
             ))}
           </div>
 
-          <h3 className="tools-title">Tools I Use</h3>
+          <h3 className="tools-title">
+              <AnimatedText>Tools I </AnimatedText>
+              <AnimatedText className="accent-text" delay={0.35}>Use</AnimatedText>
+            </h3>
           <div className="tools-grid">
             {tools.map((tool, index) => (
               <div
@@ -147,10 +150,10 @@ const Home = () => {
       <section className="cta section">
         <div className="container cta-content">
           <h2>
-            <AnimatedText>Let's Work </AnimatedText>
+            <AnimatedText>Let&apos;s Work </AnimatedText>
             <AnimatedText className="accent-text" delay={0.45}>Together</AnimatedText>
           </h2>
-          <p>Have a project in mind? I'd love to hear about it.</p>
+          <p>Have a project in mind? I&apos;d love to hear about it.</p>
           <Link to="/contact" className="btn btn-primary">Start a Conversation</Link>
         </div>
       </section>

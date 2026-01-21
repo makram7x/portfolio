@@ -1,3 +1,21 @@
+/* Page Header */
+.education-page .page-header {
+  padding: 140px 0 60px;
+  text-align: center;
+}
+
+.education-page .page-header h1 {
+  font-size: 3.5rem;
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+.education-page .page-header p {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
 /* Education Section */
 .education-section {
   padding-top: 40px;
@@ -448,6 +466,14 @@
 }
 
 @media (max-width: 768px) {
+  .education-page .page-header {
+    padding: 120px 0 40px;
+  }
+
+  .education-page .page-header h1 {
+    font-size: 2.5rem;
+  }
+
   .education-card {
     flex-direction: column;
     text-align: center;
@@ -484,6 +510,10 @@
 }
 
 @media (max-width: 480px) {
+  .education-page .page-header h1 {
+    font-size: 2rem;
+  }
+
   .education-card {
     padding: 32px 24px;
   }

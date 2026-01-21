@@ -6,6 +6,7 @@ import {
   VsCodeIcon,
   BlenderIcon,
 } from '../components/Icons';
+import AnimatedText from '../components/AnimatedText';
 import './Education.css';
 
 const technicalSkills = [
@@ -40,7 +41,10 @@ const Education = () => {
     <main className="education-page">
       <section className="page-header">
         <div className="container">
-          <h1>Education & <span className="accent-text">Skills</span></h1>
+          <h1>
+            <AnimatedText>Education & </AnimatedText>
+            <AnimatedText className="accent-text" delay={0.5}>Skills</AnimatedText>
+          </h1>
           <p>My academic background and technical expertise</p>
         </div>
       </section>
@@ -49,7 +53,7 @@ const Education = () => {
       <section className="education-section section">
         <div className="container">
           <h2 className="section-title">
-            <span className="accent-text">Education</span>
+            <AnimatedText className="accent-text">Education</AnimatedText>
           </h2>
 
           <div className="education-card">
@@ -86,7 +90,7 @@ const Education = () => {
       <section className="certificates-section section">
         <div className="container">
           <h2 className="section-title">
-            <span className="accent-text">Certificates</span>
+            <AnimatedText className="accent-text">Certificates</AnimatedText>
           </h2>
 
           <div className="certificates-grid">
@@ -134,7 +138,8 @@ const Education = () => {
       <section className="skills-section section">
         <div className="container">
           <h2 className="section-title">
-            Technical <span className="accent-text">Skills</span>
+            <AnimatedText>Technical </AnimatedText>
+            <AnimatedText className="accent-text" delay={0.4}>Skills</AnimatedText>
           </h2>
 
           <div className="skills-bars">
@@ -164,7 +169,8 @@ const Education = () => {
       <section className="software-section section">
         <div className="container">
           <h2 className="section-title">
-            Software <span className="accent-text">Proficiency</span>
+            <AnimatedText>Software </AnimatedText>
+            <AnimatedText className="accent-text" delay={0.35}>Proficiency</AnimatedText>
           </h2>
 
           <div className="software-grid">

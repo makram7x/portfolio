@@ -258,3 +258,44 @@ export const BlenderIcon = ({ size = 48 }) => (
     <path d="M8 12l10 8" stroke="url(#iconGradient)" strokeWidth="2.5" strokeLinecap="round"/>
   </svg>
 );
+
+// Authentic Design Icon (Sparkle/Star)
+export const AuthenticIcon = ({ size = 48 }) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M24 4l3 9h9l-7 6 3 9-8-5-8 5 3-9-7-6h9l3-9z" stroke="url(#iconGradient)" strokeWidth="2.5" fill="rgba(193,127,89,0.1)" strokeLinejoin="round"/>
+    <circle cx="24" cy="22" r="4" fill="url(#iconGradient)"/>
+    <path d="M10 36l2 4 4 1-3 3 1 4-4-2-4 2 1-4-3-3 4-1 2-4z" stroke="#C17F59" strokeWidth="1.5" fill="rgba(193,127,89,0.2)"/>
+    <path d="M38 32l1.5 3 3 .75-2.25 2.25.75 3-3-1.5-3 1.5.75-3-2.25-2.25 3-.75 1.5-3z" stroke="#5C6B5E" strokeWidth="1.5" fill="rgba(92,107,94,0.2)"/>
+  </svg>
+);
+
+// Quality Materials Icon (Diamond/Gem)
+export const QualityIcon = ({ size = 48 }) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M24 44L4 18l6-10h28l6 10L24 44z" stroke="url(#iconGradient)" strokeWidth="2.5" fill="rgba(193,127,89,0.05)" strokeLinejoin="round"/>
+    <path d="M4 18h40" stroke="url(#iconGradient)" strokeWidth="2"/>
+    <path d="M10 8l6 10M38 8l-6 10" stroke="url(#iconGradient)" strokeWidth="2"/>
+    <path d="M24 18v26" stroke="url(#iconGradient)" strokeWidth="1.5" strokeOpacity="0.5"/>
+    <path d="M16 18l8 26 8-26" stroke="url(#iconGradient)" strokeWidth="1.5" strokeOpacity="0.5"/>
+    <circle cx="24" cy="18" r="3" fill="url(#iconGradient)"/>
+  </svg>
+);
+
+// Local Delivery Icon (Location with heart)
+export const LocalIcon = ({ size = 48 }) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M24 4C16 4 10 10 10 18c0 12 14 26 14 26s14-14 14-26c0-8-6-14-14-14z" stroke="url(#iconGradient)" strokeWidth="2.5" fill="rgba(193,127,89,0.1)"/>
+    <path d="M24 12c-2-2-6-2-6 2 0 3 6 8 6 8s6-5 6-8c0-4-4-4-6-2z" fill="url(#iconGradient)"/>
+    <circle cx="24" cy="18" r="1" fill="#0D0D0D"/>
+  </svg>
+);
+
+// Direct Support Icon (Chat bubble)
+export const SupportIcon = ({ size = 48 }) => (
+  <svg width={size} height={size} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M8 10h32a4 4 0 014 4v16a4 4 0 01-4 4H20l-8 8v-8H8a4 4 0 01-4-4V14a4 4 0 014-4z" stroke="url(#iconGradient)" strokeWidth="2.5" fill="rgba(193,127,89,0.05)"/>
+    <circle cx="16" cy="22" r="2.5" fill="url(#iconGradient)"/>
+    <circle cx="24" cy="22" r="2.5" fill="url(#iconGradient)"/>
+    <circle cx="32" cy="22" r="2.5" fill="url(#iconGradient)"/>
+  </svg>
+);

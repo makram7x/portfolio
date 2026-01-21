@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { BriefcaseIcon, RocketIcon, SparklesIcon } from "../components/Icons";
+import AnimatedText from "../components/AnimatedText";
 import "./Experience.css";
 
 const experiences = [
@@ -161,7 +162,8 @@ const Experience = () => {
       <section className="page-header">
         <div className="container">
           <h1>
-            My <span className="accent-text">Journey</span>
+            <AnimatedText>My </AnimatedText>
+            <AnimatedText className="accent-text" delay={0.15}>Journey</AnimatedText>
           </h1>
           <p>
             Follow my path through professional growth and creative exploration

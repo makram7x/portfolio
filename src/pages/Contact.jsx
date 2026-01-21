@@ -6,6 +6,7 @@ import {
   LocationIcon,
   AvailabilityIcon,
 } from '../components/Icons';
+import AnimatedText from '../components/AnimatedText';
 import './Contact.css';
 
 const contactMethods = [
@@ -44,7 +45,10 @@ const Contact = () => {
     <main className="contact-page">
       <section className="page-header">
         <div className="container">
-          <h1>Get In <span className="accent-text">Touch</span></h1>
+          <h1>
+            <AnimatedText>Get In </AnimatedText>
+            <AnimatedText className="accent-text" delay={0.3}>Touch</AnimatedText>
+          </h1>
           <p>Let's discuss your next project or just say hello</p>
         </div>
       </section>
@@ -54,7 +58,11 @@ const Contact = () => {
           {/* Hero Message */}
           <div className="contact-hero">
             <div className="contact-hero-content">
-              <h2>Let's Create Something <span className="accent-text">Amazing</span> Together</h2>
+              <h2>
+                <AnimatedText>Let's Create Something </AnimatedText>
+                <AnimatedText className="accent-text" delay={0.8}>Amazing</AnimatedText>
+                <AnimatedText delay={1.05}> Together</AnimatedText>
+              </h2>
               <p>
                 I'm always excited to collaborate on new projects, whether it's designing
                 a brand identity, creating a stunning UI/UX, or managing your social media presence.

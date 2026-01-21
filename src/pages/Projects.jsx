@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import AnimatedText from '../components/AnimatedText';
 import './Projects.css';
 
 const projects = [
@@ -190,7 +191,10 @@ const Projects = () => {
     <main className="projects-page">
       <section className="page-header">
         <div className="container">
-          <h1>My <span className="accent-text">Projects</span></h1>
+          <h1>
+              <AnimatedText>My </AnimatedText>
+              <AnimatedText className="accent-text" delay={0.15}>Projects</AnimatedText>
+            </h1>
           <p>Explore my constellation of creative work</p>
         </div>
       </section>

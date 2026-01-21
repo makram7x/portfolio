@@ -35,6 +35,9 @@ const Navbar = () => {
             <NavLink to="/education" onClick={closeMenu}>Education</NavLink>
           </li>
           <li>
+            <NavLink to="/my-shop" onClick={closeMenu}>My Shop</NavLink>
+          </li>
+          <li>
             <NavLink to="/contact" onClick={closeMenu} className="nav-cta">Contact</NavLink>
           </li>
         </ul>
