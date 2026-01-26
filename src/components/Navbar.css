@@ -23,6 +23,11 @@
   letter-spacing: -0.02em;
 }
 
+.logo-img {
+  height: 60px;
+  width: auto;
+}
+
 .nav-links {
   display: flex;
   align-items: center;

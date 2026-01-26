@@ -31,6 +31,25 @@
   font-weight: 600;
 }
 
+.hero-arabic {
+  height: 160px;
+  width: auto;
+  margin-bottom: 24px;
+  opacity: 0.85;
+  animation: slideFromRight 1s ease-out forwards;
+}
+
+@keyframes slideFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  100% {
+    opacity: 0.85;
+    transform: translateX(0);
+  }
+}
+
 .hero-title {
   font-family: var(--font-display);
   font-size: 1.6rem;
@@ -288,6 +307,10 @@
     font-size: 3rem;
   }
 
+  .hero-arabic {
+    height: 120px;
+  }
+
   .hero-title {
     font-size: 1.3rem;
   }
@@ -322,6 +345,10 @@
 
   .hero-name {
     font-size: 2.5rem;
+  }
+
+  .hero-arabic {
+    height: 90px;
   }
 
   .skills-grid {

@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
-import { EmailIcon, LinkedInIcon, BehanceIcon } from './Icons';
-import './Footer.css';
+import { Link } from "react-router-dom";
+import { EmailIcon, LinkedInIcon, BehanceIcon } from "./Icons";
+import "./Footer.css";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -10,9 +10,15 @@ const Footer = () => {
       <div className="container footer-content">
         <div className="footer-brand">
           <Link to="/" className="footer-logo">
-            <span className="accent-text">HS</span>
+            <img
+              src="/HS LOGO 3.png"
+              alt="HS Logo"
+              className="footer-logo-img"
+            />
           </Link>
-          <p>Digital Media Specialist creating impactful digital experiences.</p>
+          <p>
+            Digital Media Specialist creating impactful digital experiences.
+          </p>
         </div>
 
         <div className="footer-links">
@@ -32,10 +38,20 @@ const Footer = () => {
             <a href="mailto:hbibasalahm@gmail.com" aria-label="Email">
               <EmailIcon size={24} />
             </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <a
+              href="https://linkedin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+            >
               <LinkedInIcon size={24} />
             </a>
-            <a href="https://behance.net" target="_blank" rel="noopener noreferrer" aria-label="Behance">
+            <a
+              href="https://behance.net"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Behance"
+            >
               <BehanceIcon size={24} />
             </a>
           </div>

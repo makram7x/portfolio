@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from "react";
-import { BriefcaseIcon, RocketIcon, SparklesIcon } from "../components/Icons";
+import { useEffect, useRef, useState, useCallback } from "react";
 import AnimatedText from "../components/AnimatedText";
 import "./Experience.css";
 
@@ -11,8 +10,7 @@ const experiences = [
     organization: "Ministry of Information",
     period: "Sep - Nov 2024",
     type: "professional",
-    Icon: BriefcaseIcon,
-    logo: "/BNA logo.png",
+    logo: "/BNA logo.jpg",
     responsibilities: [
       "Utilized Adobe Photoshop to edit and enhance images for news covers featured on social media",
       "Managed social media content by crafting engaging posts to effectively communicate BNA news updates",
@@ -27,7 +25,6 @@ const experiences = [
     organization: "Ministry of Information",
     period: "Dec 2024",
     type: "professional",
-    Icon: BriefcaseIcon,
     logo: "/bahrain tv logo.jpg",
     responsibilities: [
       "Conducted interviews and hosted guests for various television segments",
@@ -41,81 +38,69 @@ const experiences = [
     title: "Marketing Specialist",
     company: "Octo fusion",
     organization: "Private Company",
-    period: "Nov 2022 - Present",
-    type: "Professional",
-    Icon: BriefcaseIcon,
+    period: "Aug 2024 - Jan 2026",
+    type: "professional",
     logo: "/octo logo.jpg",
     responsibilities: [
-      "Successfully launched and managed a personal business, overseeing all aspects of branding and marketing",
-      "Designed visually appealing Instagram posts to effectively promote products and services",
-      "Managed customer inquiries and provided personalized support",
-      "Ensured customer satisfaction through clear communication and efficient order fulfillment",
+      "Led comprehensive digital marketing campaigns for 10+ diverse clients including British Council and Cinepolis, executing end-to-end content creation from videography and photography to social media management",
+      "Developed strategic marketing deliverables including campaign moodboards, content calendars, and performance reports to optimize brand positioning and engagement metrics",
+      "Created high-impact visual content serving dual roles as creative producer and on-camera talent, demonstrating versatility across photography, videography, digital design, and modeling",
+      "Managed social media strategies and brand presence for high-profile accounts, crafting data-driven content that aligned with client objectives and marketing KPIs",
     ],
   },
   {
     id: 4,
-    title: "Marketing Specialist",
+    title: "Creative Producer",
     company: "Valour Apparel",
     organization: "Private Company",
-    period: "Nov 2022 - Present",
-    type: "Professional",
-    Icon: BriefcaseIcon,
+    period: "Jan 2026 - Present",
+    type: "professional",
     logo: "/valour logo.jpg",
     responsibilities: [
-      "Successfully launched and managed a personal business, overseeing all aspects of branding and marketing",
-      "Designed visually appealing Instagram posts to effectively promote products and services",
-      "Managed customer inquiries and provided personalized support",
-      "Ensured customer satisfaction through clear communication and efficient order fulfillment",
+      "To be continued...",
     ],
   },
 ];
 
 const Experience = () => {
   const [visibleCards, setVisibleCards] = useState(new Set());
-  const [reachedCards, setReachedCards] = useState(new Set());
+  const [activeCard, setActiveCard] = useState(-1);
   const [pathLength, setPathLength] = useState(0);
-  const [currentSegment, setCurrentSegment] = useState(-1);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const sectionRef = useRef(null);
   const cardsRef = useRef([]);
-  const cardsContainerRef = useRef(null);
+  const containerRef = useRef(null);
   const pathRef = useRef(null);
-  const previousSegment = useRef(-1);
 
   const totalCards = experiences.length;
 
-  // Calculate actual path length on mount
+  // Check if mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Calculate path length
   useEffect(() => {
     if (pathRef.current) {
       setPathLength(pathRef.current.getTotalLength());
     }
-  }, []);
+  }, [isMobile]);
 
-  // Sync reached cards with line animation
-  useEffect(() => {
-    if (currentSegment >= 0) {
-      // Highlight the current card after line animation completes
-      const timeout = setTimeout(() => {
-        setReachedCards((prev) => {
-          const newSet = new Set(prev);
-          // Add all cards up to and including current segment
-          for (let i = 0; i <= currentSegment; i++) {
-            newSet.add(i);
-          }
-          return newSet;
-        });
-      }, 500);
-      return () => clearTimeout(timeout);
-    }
-  }, [currentSegment]);
-
+  // Handle scroll
   useEffect(() => {
     const handleScroll = () => {
-      if (!sectionRef.current || !cardsContainerRef.current) return;
+      if (!containerRef.current) return;
 
       const windowHeight = window.innerHeight;
       const triggerPoint = windowHeight * 0.5;
 
-      // Check which cards should be visible and determine current segment
+      // Check which cards should be visible and determine progress
       let highestReached = -1;
 
       cardsRef.current.forEach((card, index) => {
@@ -124,22 +109,30 @@ const Experience = () => {
           const cardTop = cardRect.top;
           const cardCenter = cardTop + cardRect.height / 2;
 
-          // Card becomes visible when entering viewport
           if (cardTop < windowHeight * 0.85) {
             setVisibleCards((prev) => new Set([...prev, index]));
           }
 
-          // Determine which segment the line should be at based on card center
           if (cardCenter < triggerPoint) {
             highestReached = Math.max(highestReached, index);
           }
         }
       });
 
-      setCurrentSegment(highestReached);
+      setActiveCard(highestReached);
+
+      // Calculate scroll progress for the curved path
+      const containerRect = containerRef.current.getBoundingClientRect();
+      const containerTop = containerRect.top;
+      const containerHeight = containerRect.height;
+      const progress = Math.min(
+        Math.max((triggerPoint - containerTop) / containerHeight, 0),
+        1
+      );
+      setScrollProgress(progress);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -157,6 +150,19 @@ const Experience = () => {
     }
   };
 
+  // Generate curved path that connects to card positions
+  const generateCurvedPath = () => {
+    // Path flows from top-right, curves left for card 1, right for card 2, etc.
+    return `M 85 0
+            C 85 80, 15 60, 15 140
+            C 15 220, 85 200, 85 280
+            C 85 360, 15 340, 15 420
+            C 15 500, 85 480, 85 560
+            L 85 600`;
+  };
+
+  const curvedPath = generateCurvedPath();
+
   return (
     <main className="experience-page">
       <section className="page-header">
@@ -172,107 +178,106 @@ const Experience = () => {
       </section>
 
       <section className="journey-section" ref={sectionRef}>
-        <div className="journey-container">
-          {/* Curved Journey Path */}
-          <svg
-            className="journey-curved-path"
-            viewBox="0 -50 900 1100"
-            preserveAspectRatio="none"
-          >
-            <defs>
-              <linearGradient
-                id="curveGradient"
-                x1="0%"
-                y1="0%"
-                x2="0%"
-                y2="100%"
-              >
-                <stop offset="0%" stopColor="var(--primary)" />
-                <stop offset="50%" stopColor="var(--secondary)" />
-                <stop offset="100%" stopColor="var(--primary)" />
-              </linearGradient>
-              <filter id="glow">
-                <feGaussianBlur stdDeviation="2" result="coloredBlur" />
-                <feMerge>
-                  <feMergeNode in="coloredBlur" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-            </defs>
+        <div className="journey-container" ref={containerRef}>
+          {/* Curved Journey Path - Desktop/Tablet */}
+          {!isMobile && (
+            <svg
+              className="journey-curved-path"
+              viewBox="0 0 100 600"
+              preserveAspectRatio="none"
+            >
+              <defs>
+                <linearGradient
+                  id="curveGradient"
+                  x1="0%"
+                  y1="0%"
+                  x2="0%"
+                  y2="100%"
+                >
+                  <stop offset="0%" stopColor="var(--primary)" />
+                  <stop offset="50%" stopColor="var(--secondary)" />
+                  <stop offset="100%" stopColor="var(--primary)" />
+                </linearGradient>
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="1.5" result="coloredBlur" />
+                  <feMerge>
+                    <feMergeNode in="coloredBlur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
 
-            {/* Starting point dot */}
-            <circle
-              className={`start-dot ${currentSegment >= 0 ? "active" : ""}`}
-              cx="900"
-              cy="-50"
-              r="6"
-              fill="var(--border)"
-            />
+              {/* Background track */}
+              <path
+                ref={pathRef}
+                className="curve-track"
+                d={curvedPath}
+                fill="none"
+                stroke="var(--border)"
+                strokeWidth="0.5"
+              />
 
-            {/* Background track */}
-            <path
-              ref={pathRef}
-              className="curve-track"
-              d="M 900 -50
-                 C 900 100, 100 50, 100 200
-                 C 100 350, 800 300, 800 450
-                 C 800 600, 100 550, 100 700
-                 C 100 850, 800 800, 800 950
-                 L 800 1050"
-              fill="none"
-              stroke="var(--border)"
-              strokeWidth="2"
-            />
-
-            {/* Animated progress path */}
-            <path
-              className="curve-progress"
-              d="M 900 -50
-                 C 900 100, 100 50, 100 200
-                 C 100 350, 800 300, 800 450
-                 C 800 600, 100 550, 100 700
-                 C 100 850, 800 800, 800 950
-                 L 800 1050"
-              fill="none"
-              stroke="url(#curveGradient)"
-              strokeWidth="3"
-              strokeLinecap="round"
-              style={{
-                strokeDasharray: pathLength || 3000,
-                strokeDashoffset:
-                  currentSegment < 0
-                    ? pathLength || 3000
-                    : (pathLength || 3000) -
-                      ((currentSegment + 1) / totalCards) *
-                        (pathLength || 3000),
-              }}
-            />
-
-            {/* Glowing dot at current position - only show when journey started */}
-            {currentSegment >= 0 && (
-              <circle
-                className="curve-dot"
-                r="5"
-                fill="var(--primary)"
-                filter="url(#glow)"
+              {/* Animated progress path */}
+              <path
+                className="curve-progress"
+                d={curvedPath}
+                fill="none"
+                stroke="url(#curveGradient)"
+                strokeWidth="0.8"
+                strokeLinecap="round"
                 style={{
-                  offsetPath: `path("M 900 -50 C 900 100, 100 50, 100 200 C 100 350, 800 300, 800 450 C 800 600, 100 550, 100 700 C 100 850, 800 800, 800 950 L 800 1050")`,
-                  offsetDistance: `${((currentSegment + 1) / totalCards) * 100}%`,
+                  strokeDasharray: pathLength || 1000,
+                  strokeDashoffset: pathLength
+                    ? pathLength - scrollProgress * pathLength
+                    : 1000,
                 }}
               />
-            )}
-          </svg>
+
+              {/* Glowing dot at current position */}
+              {scrollProgress > 0 && (
+                <circle
+                  className="curve-dot"
+                  r="1.5"
+                  fill="var(--primary)"
+                  filter="url(#glow)"
+                  style={{
+                    offsetPath: `path("${curvedPath}")`,
+                    offsetDistance: `${scrollProgress * 100}%`,
+                  }}
+                />
+              )}
+            </svg>
+          )}
+
+          {/* Simple Timeline - Mobile */}
+          {isMobile && (
+            <div className="timeline-mobile">
+              <div className="timeline-track" />
+              <div
+                className="timeline-progress"
+                style={{ height: `${scrollProgress * 100}%` }}
+              />
+              {scrollProgress > 0 && (
+                <div
+                  className="timeline-dot"
+                  style={{ top: `${scrollProgress * 100}%` }}
+                />
+              )}
+            </div>
+          )}
 
           {/* Experience Cards */}
-          <div className="journey-cards" ref={cardsContainerRef}>
+          <div className="journey-cards">
             {experiences.map((exp, index) => (
               <div
                 key={exp.id}
                 ref={(el) => (cardsRef.current[index] = el)}
-                className={`journey-card ${index % 2 === 0 ? "right" : "left"} ${exp.type} ${visibleCards.has(index) ? "visible" : ""} ${reachedCards.has(index) ? "reached" : ""}`}
+                className={`journey-card ${index % 2 === 0 ? "left" : "right"} ${visibleCards.has(index) ? "visible" : ""} ${activeCard >= index ? "reached" : ""}`}
               >
-                <div className="journey-card-connector">
-                  <div className="connector-dot">
+                {/* Connector */}
+                <div className="card-connector">
+                  <div className="connector-line" />
+                  <div className={`connector-node ${activeCard >= index ? "active" : ""}`}>
                     <img
                       src={exp.logo}
                       alt={exp.company}
@@ -280,11 +285,14 @@ const Experience = () => {
                     />
                   </div>
                 </div>
+
                 <div className="journey-card-content">
-                  <span className={`journey-card-type ${exp.type}`}>
-                    {getTypeLabel(exp.type)}
-                  </span>
-                  <span className="journey-card-period">{exp.period}</span>
+                  <div className="card-header">
+                    <span className={`journey-card-type ${exp.type}`}>
+                      {getTypeLabel(exp.type)}
+                    </span>
+                    <span className="journey-card-period">{exp.period}</span>
+                  </div>
                   <h3 className="journey-card-title">{exp.title}</h3>
                   <h4 className="journey-card-company">{exp.company}</h4>
                   <p className="journey-card-org">{exp.organization}</p>

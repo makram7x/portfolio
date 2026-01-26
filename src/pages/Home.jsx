@@ -48,6 +48,7 @@ const Home = () => {
               <AnimatedText>Habiba </AnimatedText>
               <AnimatedText className="accent-text" delay={0.5}>Salah</AnimatedText>
             </h1>
+            <img src="/HS Arabic 2.png" alt="حبيبة صالح" className="hero-arabic" />
             <h2 className="hero-title">Digital Media Specialist</h2>
             <p className="hero-description">
               Passionate about creating impactful digital experiences through
@@ -62,7 +63,7 @@ const Home = () => {
           <div className="hero-visual">
             <div className="hero-image-wrapper">
               <div className="hero-image-glow"></div>
-              <img src="/profile.jpg" alt="Habiba Salah" className="hero-image" />
+              <img src="/profile1.png" alt="Habiba Salah" className="hero-image" />
             </div>
           </div>
         </div>

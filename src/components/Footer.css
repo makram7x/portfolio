@@ -21,6 +21,11 @@
   letter-spacing: -0.02em;
 }
 
+.footer-logo-img {
+  height: 60px;
+  width: auto;
+}
+
 .footer-brand p {
   color: var(--text-muted);
   max-width: 320px;

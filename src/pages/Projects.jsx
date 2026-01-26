@@ -2,6 +2,9 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import AnimatedText from '../components/AnimatedText';
 import './Projects.css';
 
+const BEHANCE_USERNAME = 'habibasalah7';
+const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+
 const projects = [
   {
     id: 1,
@@ -16,7 +19,6 @@ const projects = [
       'Comprehensive destination descriptions with images & reviews',
     ],
     tools: ['Figma', 'Adobe XD'],
-    connections: [2, 3], // Connected to other UI/UX projects
   },
   {
     id: 2,
@@ -31,7 +33,6 @@ const projects = [
       'Focused on children\'s privacy and protection',
     ],
     tools: ['Figma', 'Adobe Creative Suite'],
-    connections: [1, 4],
   },
   {
     id: 3,
@@ -46,7 +47,6 @@ const projects = [
       'Met all project specifications',
     ],
     tools: ['Figma', 'VS Code'],
-    connections: [1, 4],
   },
   {
     id: 4,
@@ -61,7 +61,6 @@ const projects = [
       'Strong visual principles applied',
     ],
     tools: ['Figma', 'Adobe Creative Suite'],
-    connections: [2, 3],
   },
 ];
 
@@ -72,11 +71,81 @@ const Projects = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [cardTransforms, setCardTransforms] = useState({});
   const [stars, setStars] = useState([]);
+  const [behanceProjects, setBehanceProjects] = useState([]);
+  const [behanceLoading, setBehanceLoading] = useState(true);
+  const [behanceError, setBehanceError] = useState(null);
+  const [lightboxProject, setLightboxProject] = useState(null);
   const containerRef = useRef(null);
   const sectionRef = useRef(null);
   const cardRefs = useRef({});
   const starIdRef = useRef(0);
   const lastStarTime = useRef(0);
+
+  // Fetch Behance RSS feed
+  useEffect(() => {
+    const fetchBehanceProjects = async () => {
+      try {
+        const feedUrl = `https://www.behance.net/feeds/user?username=${BEHANCE_USERNAME}`;
+        const response = await fetch(`${CORS_PROXY}${encodeURIComponent(feedUrl)}`);
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch Behance feed');
+        }
+
+        const xmlText = await response.text();
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+
+        const items = xmlDoc.querySelectorAll('item');
+        const parsedProjects = Array.from(items).map((item, index) => {
+          const title = item.querySelector('title')?.textContent || 'Untitled';
+          const link = item.querySelector('link')?.textContent || '';
+          const pubDate = item.querySelector('pubDate')?.textContent || '';
+
+          // Try multiple sources for the image
+          // 1. Try content:encoded (uses namespace)
+          const contentEncoded = item.getElementsByTagName('content:encoded')[0]?.textContent || '';
+          // 2. Fallback to description
+          const description = item.querySelector('description')?.textContent || '';
+
+          // Combined content to search for image
+          const contentToSearch = contentEncoded || description;
+
+          // Extract image - handle both single and double quotes
+          let thumbnail = null;
+          const imgMatchSingle = contentToSearch.match(/<img[^>]+src='([^']+)'/);
+          const imgMatchDouble = contentToSearch.match(/<img[^>]+src="([^"]+)"/);
+          thumbnail = imgMatchSingle?.[1] || imgMatchDouble?.[1] || null;
+
+          // Extract project ID from link
+          const idMatch = link.match(/\/gallery\/(\d+)\//);
+          const behanceId = idMatch ? idMatch[1] : null;
+
+          return {
+            id: `behance-${index}`,
+            title,
+            link,
+            thumbnail,
+            pubDate: new Date(pubDate).toLocaleDateString('en-US', {
+              month: 'short',
+              year: 'numeric'
+            }),
+            behanceId,
+            isBehance: true,
+          };
+        });
+
+        setBehanceProjects(parsedProjects);
+        setBehanceLoading(false);
+      } catch (error) {
+        console.error('Error fetching Behance projects:', error);
+        setBehanceError('Unable to load Behance projects');
+        setBehanceLoading(false);
+      }
+    };
+
+    fetchBehanceProjects();
+  }, []);
 
   // Magnetic cursor effect + Star trail
   const handleMouseMove = useCallback((e) => {
@@ -292,6 +361,127 @@ const Projects = () => {
         </div>
       </section>
 
+      {/* Behance Projects Section */}
+      <section className="behance-section">
+        <div className="container">
+          <div className="behance-header">
+            <h2>
+              <AnimatedText>From </AnimatedText>
+              <AnimatedText className="accent-text" delay={0.15}>Behance</AnimatedText>
+            </h2>
+            <a
+              href={`https://www.behance.net/${BEHANCE_USERNAME}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="behance-profile-link"
+            >
+              View Profile →
+            </a>
+          </div>
+
+          {behanceLoading && (
+            <div className="behance-loading">
+              <div className="loading-spinner"></div>
+              <p>Loading projects...</p>
+            </div>
+          )}
+
+          {behanceError && (
+            <div className="behance-error">
+              <p>{behanceError}</p>
+              <a
+                href={`https://www.behance.net/${BEHANCE_USERNAME}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Visit Behance Profile
+              </a>
+            </div>
+          )}
+
+          {!behanceLoading && !behanceError && (
+            <div className="bento-grid">
+              {behanceProjects.map((project) => (
+                <div
+                  key={project.id}
+                  className="bento-item"
+                  onClick={() => setLightboxProject(project)}
+                >
+                  {project.thumbnail ? (
+                    <img src={project.thumbnail} alt={project.title} loading="lazy" />
+                  ) : (
+                    <div className="bento-placeholder">
+                      <span>Bē</span>
+                    </div>
+                  )}
+                  <div className="bento-overlay">
+                    <div className="bento-content">
+                      <h3>{project.title}</h3>
+                      <span className="bento-date">{project.pubDate}</span>
+                    </div>
+                    <span className="bento-icon">↗</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Behance Lightbox */}
+      {lightboxProject && (
+        <div className="lightbox-overlay" onClick={() => setLightboxProject(null)}>
+          <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
+            <button className="lightbox-close" onClick={() => setLightboxProject(null)}>
+              ×
+            </button>
+            <button
+              className="lightbox-nav lightbox-prev"
+              onClick={(e) => {
+                e.stopPropagation();
+                const currentIndex = behanceProjects.findIndex(p => p.id === lightboxProject.id);
+                const prevIndex = currentIndex > 0 ? currentIndex - 1 : behanceProjects.length - 1;
+                setLightboxProject(behanceProjects[prevIndex]);
+              }}
+            >
+              ‹
+            </button>
+            <button
+              className="lightbox-nav lightbox-next"
+              onClick={(e) => {
+                e.stopPropagation();
+                const currentIndex = behanceProjects.findIndex(p => p.id === lightboxProject.id);
+                const nextIndex = currentIndex < behanceProjects.length - 1 ? currentIndex + 1 : 0;
+                setLightboxProject(behanceProjects[nextIndex]);
+              }}
+            >
+              ›
+            </button>
+            <div className="lightbox-image-container">
+              {lightboxProject.thumbnail ? (
+                <img src={lightboxProject.thumbnail} alt={lightboxProject.title} />
+              ) : (
+                <div className="lightbox-placeholder">
+                  <span>Bē</span>
+                </div>
+              )}
+            </div>
+            <div className="lightbox-info">
+              <h3>{lightboxProject.title}</h3>
+              <span className="lightbox-date">{lightboxProject.pubDate}</span>
+              <a
+                href={lightboxProject.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="lightbox-link"
+              >
+                View on Behance →
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Project Detail Modal */}
       {activeProject && (
         <div className="project-modal-overlay" onClick={() => setActiveProject(null)}>
@@ -329,6 +519,25 @@ const Projects = () => {
                 ))}
               </div>
             </div>
+
+            {activeProject.behanceId && (
+              <div className="modal-behance">
+                <h4>View on Behance</h4>
+                <div className="behance-embed">
+                  <iframe
+                    src={`https://www.behance.net/embed/project/${activeProject.behanceId}?ilo0=1`}
+                    height="316"
+                    width="404"
+                    allowFullScreen
+                    loading="lazy"
+                    frameBorder="0"
+                    allow="clipboard-write"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    title={`${activeProject.title} on Behance`}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
