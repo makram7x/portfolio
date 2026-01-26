@@ -1,44 +1,7 @@
-import {
-  EmailIcon,
-  PhoneIcon,
-  LinkedInIcon,
-  BehanceIcon,
-  LocationIcon,
-  AvailabilityIcon,
-} from '../components/Icons';
+import { LocationIcon, AvailabilityIcon } from '../components/Icons';
 import AnimatedText from '../components/AnimatedText';
+import { contactMethods, locationInfo } from '../content/contact';
 import './Contact.css';
-
-const contactMethods = [
-  {
-    name: "Email",
-    Icon: EmailIcon,
-    value: "hbibasalahm@gmail.com",
-    href: "mailto:hbibasalahm@gmail.com",
-    description: "Drop me an email anytime",
-  },
-  {
-    name: "Phone",
-    Icon: PhoneIcon,
-    value: "+973 38800575",
-    href: "tel:+97338800575",
-    description: "Available for calls",
-  },
-  {
-    name: "LinkedIn",
-    Icon: LinkedInIcon,
-    value: "Habiba Salah",
-    href: "https://www.linkedin.com/in/habiba-salah-00718a268/",
-    description: "Let's connect professionally",
-  },
-  {
-    name: "Behance",
-    Icon: BehanceIcon,
-    value: "View My Portfolio",
-    href: "https://www.behance.net/habibasalah7",
-    description: "See more of my work",
-  },
-];
 
 const Contact = () => {
   return (
@@ -108,7 +71,7 @@ const Contact = () => {
               </span>
               <div>
                 <h4>Based in</h4>
-                <p>Bahrain</p>
+                <p>{locationInfo.location}</p>
               </div>
             </div>
             <div className="info-card availability">
@@ -117,7 +80,7 @@ const Contact = () => {
               </span>
               <div>
                 <h4>Availability</h4>
-                <p>Open for freelance projects</p>
+                <p>{locationInfo.availability}</p>
               </div>
             </div>
           </div>

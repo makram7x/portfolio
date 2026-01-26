@@ -1,40 +1,7 @@
 import { Link } from 'react-router-dom';
-import {
-  UiUxIcon,
-  GraphicDesignIcon,
-  SocialMediaIcon,
-  VideoEditingIcon,
-  PhotographyIcon,
-  AnimationIcon,
-  BrandingIcon,
-  WebDesignIcon,
-  AdobeIcon,
-  FigmaIcon,
-  CapCutIcon,
-  VsCodeIcon,
-  BlenderIcon,
-} from '../components/Icons';
 import AnimatedText from '../components/AnimatedText';
+import { homeSkills, homeTools } from '../content/home';
 import './Home.css';
-
-const skills = [
-  { name: 'UI/UX Design', Icon: UiUxIcon },
-  { name: 'Graphic Design', Icon: GraphicDesignIcon },
-  { name: 'Social Media', Icon: SocialMediaIcon },
-  { name: 'Video Editing', Icon: VideoEditingIcon },
-  { name: 'Photography', Icon: PhotographyIcon },
-  { name: 'Animation', Icon: AnimationIcon },
-  { name: 'Branding', Icon: BrandingIcon },
-  { name: 'Web Design', Icon: WebDesignIcon },
-];
-
-const tools = [
-  { name: 'Adobe Creative Suite', Icon: AdobeIcon },
-  { name: 'Figma', Icon: FigmaIcon },
-  { name: 'CapCut', Icon: CapCutIcon },
-  { name: 'VS Code', Icon: VsCodeIcon },
-  { name: 'Blender', Icon: BlenderIcon },
-];
 
 const Home = () => {
   return (
@@ -112,7 +79,7 @@ const Home = () => {
             <AnimatedText className="accent-text" delay={0.15}>Skills</AnimatedText>
           </h2>
           <div className="skills-grid">
-            {skills.map((skill, index) => (
+            {homeSkills.map((skill, index) => (
               <div
                 key={skill.name}
                 className="skill-card"
@@ -131,7 +98,7 @@ const Home = () => {
               <AnimatedText className="accent-text" delay={0.35}>Use</AnimatedText>
             </h3>
           <div className="tools-grid">
-            {tools.map((tool, index) => (
+            {homeTools.map((tool, index) => (
               <div
                 key={tool.name}
                 className="tool-card"

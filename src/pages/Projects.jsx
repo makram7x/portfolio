@@ -1,68 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import AnimatedText from '../components/AnimatedText';
+import { featuredProjects, behanceConfig, projectCategoryColors } from '../content/projects';
 import './Projects.css';
-
-const BEHANCE_USERNAME = 'habibasalah7';
-const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
-
-const projects = [
-  {
-    id: 1,
-    title: 'Guide Map',
-    subtitle: 'Mobile App Design',
-    date: 'May 2024',
-    category: 'ui-ux',
-    description: 'A user-friendly mobile app that guides travelers to popular destinations in any country, designed as a practical solution to reduce the need for traditional tour guides.',
-    details: [
-      'Applied UI/UX design principles for intuitive navigation',
-      'Created engaging visuals for optimal user experience',
-      'Comprehensive destination descriptions with images & reviews',
-    ],
-    tools: ['Figma', 'Adobe XD'],
-  },
-  {
-    id: 2,
-    title: 'Students Pick-Up',
-    subtitle: 'Graduation Project',
-    date: 'Dec 2024',
-    category: 'ui-ux',
-    description: 'A mobile and web prototype to streamline school pick-ups through QR code scanning, enhancing security and organization.',
-    details: [
-      'Designed dual interfaces for parents and staff',
-      'Implemented QR code verification system',
-      'Focused on children\'s privacy and protection',
-    ],
-    tools: ['Figma', 'Adobe Creative Suite'],
-  },
-  {
-    id: 3,
-    title: 'Champion Within Us',
-    subtitle: 'Website Design',
-    date: 'Feb 2025',
-    category: 'web',
-    description: 'Collaborated with Al Ain University students in UAE to design a website meeting their vision and requirements.',
-    details: [
-      'Effective client communication',
-      'Creative design solutions',
-      'Met all project specifications',
-    ],
-    tools: ['Figma', 'VS Code'],
-  },
-  {
-    id: 4,
-    title: 'ICMC Conference',
-    subtitle: 'Conference Website',
-    date: 'Mar 2025',
-    category: 'web',
-    description: 'Professional interface for the International Communication & Media Conference with intuitive layout and easy access to details.',
-    details: [
-      'Enhanced user engagement through UX',
-      'Professional, formal aesthetic',
-      'Strong visual principles applied',
-    ],
-    tools: ['Figma', 'Adobe Creative Suite'],
-  },
-];
 
 
 const Projects = () => {
@@ -85,8 +24,8 @@ const Projects = () => {
   useEffect(() => {
     const fetchBehanceProjects = async () => {
       try {
-        const feedUrl = `https://www.behance.net/feeds/user?username=${BEHANCE_USERNAME}`;
-        const response = await fetch(`${CORS_PROXY}${encodeURIComponent(feedUrl)}`);
+        const feedUrl = `https://www.behance.net/feeds/user?username=${behanceConfig.username}`;
+        const response = await fetch(`${behanceConfig.corsProxy}${encodeURIComponent(feedUrl)}`);
 
         if (!response.ok) {
           throw new Error('Failed to fetch Behance feed');
@@ -249,11 +188,7 @@ const Projects = () => {
   }, []);
 
   const getCategoryColor = (category) => {
-    switch (category) {
-      case 'ui-ux': return '#C17F59';
-      case 'web': return '#5C6B5E';
-      default: return '#C17F59';
-    }
+    return projectCategoryColors[category] || projectCategoryColors['ui-ux'];
   };
 
   return (
@@ -288,7 +223,7 @@ const Projects = () => {
 
           {/* Project cards */}
           <div className="constellation-nodes">
-            {projects.map((project, index) => {
+            {featuredProjects.map((project, index) => {
               const isHovered = hoveredProject === project.id;
               const transform = cardTransforms[project.id] || { x: 0, y: 0 };
               return (
@@ -370,7 +305,7 @@ const Projects = () => {
               <AnimatedText className="accent-text" delay={0.15}>Behance</AnimatedText>
             </h2>
             <a
-              href={`https://www.behance.net/${BEHANCE_USERNAME}`}
+              href={`https://www.behance.net/${behanceConfig.username}`}
               target="_blank"
               rel="noopener noreferrer"
               className="behance-profile-link"
@@ -390,7 +325,7 @@ const Projects = () => {
             <div className="behance-error">
               <p>{behanceError}</p>
               <a
-                href={`https://www.behance.net/${BEHANCE_USERNAME}`}
+                href={`https://www.behance.net/${behanceConfig.username}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >

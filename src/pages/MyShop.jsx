@@ -1,51 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { AuthenticIcon, QualityIcon, LocalIcon, SupportIcon } from '../components/Icons';
 import AnimatedText from '../components/AnimatedText';
+import { shopInfo, shopProducts, shopFeatures } from '../content/myShop';
 import './MyShop.css';
-
-const products = [
-  {
-    id: 1,
-    name: 'Anime T-Shirt',
-    category: 'T-Shirts',
-    image: '/anime tshirt.jpeg',
-  },
-  {
-    id: 2,
-    name: 'Anime Hoodie',
-    category: 'Hoodies',
-    image: '/anime hoodie.jpeg',
-  },
-  {
-    id: 3,
-    name: 'Anime Accessories',
-    category: 'Accessories',
-    image: '/anime accessories.jpeg',
-  },
-];
-
-const features = [
-  {
-    Icon: AuthenticIcon,
-    title: 'Authentic Designs',
-    description: 'Curated anime-inspired fashion that lets you express your fandom',
-  },
-  {
-    Icon: QualityIcon,
-    title: 'Quality Materials',
-    description: 'Premium fabrics that are comfortable and built to last',
-  },
-  {
-    Icon: LocalIcon,
-    title: 'Local to Bahrain',
-    description: 'Fast local delivery and personalized customer service',
-  },
-  {
-    Icon: SupportIcon,
-    title: 'Direct Support',
-    description: 'Easy communication through Instagram DMs for orders and inquiries',
-  },
-];
 
 const MyShop = () => {
   const [isVisible, setIsVisible] = useState({});
@@ -83,7 +39,7 @@ const MyShop = () => {
   }, []);
 
   const handleShopClick = () => {
-    window.open('https://www.instagram.com/bahrains_anime/', '_blank');
+    window.open(shopInfo.instagramUrl, '_blank');
   };
 
   return (
@@ -93,7 +49,7 @@ const MyShop = () => {
         <div className="container">
           <div className="hero-content">
             <div className="hero-logo">
-              <img src="/bahrain anime logo.jpg" alt="Bahrain's Anime Logo" />
+              <img src={shopInfo.logo} alt={`${shopInfo.brandName} Logo`} />
             </div>
             <h1>
               <AnimatedText>Bahrain's </AnimatedText>
@@ -103,7 +59,7 @@ const MyShop = () => {
               Your destination for authentic anime-inspired clothing in Bahrain.
               Express your love for anime through fashion.
             </p>
-            <p className="instagram-handle">@bahrains_anime</p>
+            <p className="instagram-handle">{shopInfo.instagramHandle}</p>
           </div>
         </div>
         <div className="hero-decoration">
@@ -153,7 +109,7 @@ const MyShop = () => {
           <p className="section-subtitle">Explore our collection of anime-inspired fashion</p>
 
           <div className="products-grid">
-            {products.map((product, index) => (
+            {shopProducts.map((product, index) => (
               <div
                 key={product.id}
                 className="product-card"
@@ -197,7 +153,7 @@ const MyShop = () => {
           </h2>
 
           <div className="features-grid">
-            {features.map((feature, index) => {
+            {shopFeatures.map((feature, index) => {
               const IconComponent = feature.Icon;
               return (
                 <div
@@ -232,7 +188,7 @@ const MyShop = () => {
 
           <div className="instagram-feed-wrapper">
             <div
-              className="elfsight-app-047e5681-6d34-4259-9997-3f70efd289c9"
+              className={`elfsight-app-${shopInfo.elfsightAppId}`}
               data-elfsight-app-lazy
             ></div>
           </div>
@@ -258,7 +214,7 @@ const MyShop = () => {
                   <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                 </svg>
               </span>
-              Visit @bahrains_anime
+              Visit {shopInfo.instagramHandle}
             </button>
           </div>
         </div>
