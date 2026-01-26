@@ -20,67 +20,87 @@ const Projects = () => {
   const starIdRef = useRef(0);
   const lastStarTime = useRef(0);
 
-  // Fetch Behance RSS feed
+  // Fetch Behance RSS feed with fallback proxies
   useEffect(() => {
     const fetchBehanceProjects = async () => {
-      try {
-        const feedUrl = `https://www.behance.net/feeds/user?username=${behanceConfig.username}`;
-        const response = await fetch(`${behanceConfig.corsProxy}${encodeURIComponent(feedUrl)}`);
+      const feedUrl = `https://www.behance.net/feeds/user?username=${behanceConfig.username}`;
+      let lastError = null;
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch Behance feed');
+      // Try each proxy until one works
+      for (const proxy of behanceConfig.corsProxies) {
+        try {
+          const proxyUrl = proxy.includes('allorigins')
+            ? `${proxy}${encodeURIComponent(feedUrl)}`
+            : `${proxy}${feedUrl}`;
+
+          const response = await fetch(proxyUrl);
+
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+
+          const xmlText = await response.text();
+          const parser = new DOMParser();
+          const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+
+          // Check if we got valid XML
+          const parseError = xmlDoc.querySelector('parsererror');
+          if (parseError) {
+            throw new Error('Invalid XML response');
+          }
+
+          const items = xmlDoc.querySelectorAll('item');
+          if (items.length === 0) {
+            throw new Error('No items found in feed');
+          }
+
+          const parsedProjects = Array.from(items).map((item, index) => {
+            const title = item.querySelector('title')?.textContent || 'Untitled';
+            const link = item.querySelector('link')?.textContent || '';
+            const pubDate = item.querySelector('pubDate')?.textContent || '';
+
+            // Try multiple sources for the image
+            const contentEncoded = item.getElementsByTagName('content:encoded')[0]?.textContent || '';
+            const description = item.querySelector('description')?.textContent || '';
+            const contentToSearch = contentEncoded || description;
+
+            // Extract image - handle both single and double quotes
+            let thumbnail = null;
+            const imgMatchSingle = contentToSearch.match(/<img[^>]+src='([^']+)'/);
+            const imgMatchDouble = contentToSearch.match(/<img[^>]+src="([^"]+)"/);
+            thumbnail = imgMatchSingle?.[1] || imgMatchDouble?.[1] || null;
+
+            // Extract project ID from link
+            const idMatch = link.match(/\/gallery\/(\d+)\//);
+            const behanceId = idMatch ? idMatch[1] : null;
+
+            return {
+              id: `behance-${index}`,
+              title,
+              link,
+              thumbnail,
+              pubDate: new Date(pubDate).toLocaleDateString('en-US', {
+                month: 'short',
+                year: 'numeric'
+              }),
+              behanceId,
+              isBehance: true,
+            };
+          });
+
+          setBehanceProjects(parsedProjects);
+          setBehanceLoading(false);
+          return; // Success, exit the loop
+        } catch (error) {
+          console.warn(`Proxy ${proxy} failed:`, error.message);
+          lastError = error;
         }
-
-        const xmlText = await response.text();
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
-
-        const items = xmlDoc.querySelectorAll('item');
-        const parsedProjects = Array.from(items).map((item, index) => {
-          const title = item.querySelector('title')?.textContent || 'Untitled';
-          const link = item.querySelector('link')?.textContent || '';
-          const pubDate = item.querySelector('pubDate')?.textContent || '';
-
-          // Try multiple sources for the image
-          // 1. Try content:encoded (uses namespace)
-          const contentEncoded = item.getElementsByTagName('content:encoded')[0]?.textContent || '';
-          // 2. Fallback to description
-          const description = item.querySelector('description')?.textContent || '';
-
-          // Combined content to search for image
-          const contentToSearch = contentEncoded || description;
-
-          // Extract image - handle both single and double quotes
-          let thumbnail = null;
-          const imgMatchSingle = contentToSearch.match(/<img[^>]+src='([^']+)'/);
-          const imgMatchDouble = contentToSearch.match(/<img[^>]+src="([^"]+)"/);
-          thumbnail = imgMatchSingle?.[1] || imgMatchDouble?.[1] || null;
-
-          // Extract project ID from link
-          const idMatch = link.match(/\/gallery\/(\d+)\//);
-          const behanceId = idMatch ? idMatch[1] : null;
-
-          return {
-            id: `behance-${index}`,
-            title,
-            link,
-            thumbnail,
-            pubDate: new Date(pubDate).toLocaleDateString('en-US', {
-              month: 'short',
-              year: 'numeric'
-            }),
-            behanceId,
-            isBehance: true,
-          };
-        });
-
-        setBehanceProjects(parsedProjects);
-        setBehanceLoading(false);
-      } catch (error) {
-        console.error('Error fetching Behance projects:', error);
-        setBehanceError('Unable to load Behance projects');
-        setBehanceLoading(false);
       }
+
+      // All proxies failed
+      console.error('All proxies failed to fetch Behance projects:', lastError);
+      setBehanceError('Unable to load Behance projects');
+      setBehanceLoading(false);
     };
 
     fetchBehanceProjects();

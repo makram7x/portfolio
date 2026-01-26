@@ -1,7 +1,11 @@
 // Behance configuration
 export const behanceConfig = {
   username: 'habibasalah7',
-  corsProxy: 'https://api.allorigins.win/raw?url=',
+  // List of CORS proxies to try (in order of preference)
+  corsProxies: [
+    'https://corsproxy.io/?',
+    'https://api.allorigins.win/raw?url=',
+  ],
 };
 
 // Featured projects displayed in the constellation section
