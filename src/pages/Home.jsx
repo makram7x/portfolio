@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import AnimatedText from '../components/AnimatedText';
-import { homeSkills, homeTools } from '../content/home';
+import { homeSkills, homeTools, heroContent, aboutContent, cvContent, ctaContent } from '../content/home';
 import './Home.css';
 
 const Home = () => {
@@ -10,18 +10,14 @@ const Home = () => {
       <section className="hero">
         <div className="container hero-content">
           <div className="hero-text">
-            <p className="hero-greeting">Hello, I'm</p>
+            <p className="hero-greeting">{heroContent.greeting}</p>
             <h1 className="hero-name">
-              <AnimatedText>Habiba </AnimatedText>
-              <AnimatedText className="accent-text" delay={0.5}>Salah</AnimatedText>
+              <AnimatedText>{heroContent.firstName} </AnimatedText>
+              <AnimatedText className="accent-text" delay={0.5}>{heroContent.lastName}</AnimatedText>
             </h1>
-            <img src="/HS Arabic 2.png" alt="حبيبة صالح" className="hero-arabic" />
-            <h2 className="hero-title">Digital Media Specialist</h2>
-            <p className="hero-description">
-              Passionate about creating impactful digital experiences through
-              UI/UX design, social media management, and multimedia production.
-              Based in Bahrain, bringing creative visions to life.
-            </p>
+            <img src={heroContent.arabicImage} alt="حبيبة صالح" className="hero-arabic" />
+            <h2 className="hero-title">{heroContent.title}</h2>
+            <p className="hero-description">{heroContent.description}</p>
             <div className="hero-buttons">
               <Link to="/projects" className="btn btn-primary">View My Work</Link>
               <Link to="/contact" className="btn btn-outline">Get In Touch</Link>
@@ -30,7 +26,7 @@ const Home = () => {
           <div className="hero-visual">
             <div className="hero-image-wrapper">
               <div className="hero-image-glow"></div>
-              <img src="/profile1.png" alt="Habiba Salah" className="hero-image" />
+              <img src={heroContent.profileImage} alt={`${heroContent.firstName} ${heroContent.lastName}`} className="hero-image" />
             </div>
           </div>
         </div>
@@ -49,23 +45,9 @@ const Home = () => {
           </h2>
           <div className="about-content">
             <div className="about-text">
-              <p>
-                I'm a Digital Media graduate from the University of Bahrain with a
-                strong foundation in Mass Communication. My journey in digital media
-                has taken me through diverse experiences - from crafting news content
-                at Bahrain News Agency to hosting TV segments at Bahrain TV.
-              </p>
-              <p>
-                I've also ventured into entrepreneurship, running my own business
-                @bahrain_anime, where I handled everything from branding to customer
-                engagement. This blend of creative and business experience gives me
-                a unique perspective on digital media projects.
-              </p>
-              <p>
-                Currently, I'm focused on UI/UX design and web development, helping
-                clients create meaningful digital experiences that connect with their
-                audiences.
-              </p>
+              {aboutContent.paragraphs.map((paragraph, index) => (
+                <p key={index}>{paragraph}</p>
+              ))}
             </div>
           </div>
         </div>
@@ -85,7 +67,7 @@ const Home = () => {
                 className="skill-card"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="skill-icon">
+                <div className={`skill-icon icon-dance-${index}`}>
                   <skill.Icon size={48} />
                 </div>
                 <span className="skill-name">{skill.name}</span>
@@ -104,13 +86,41 @@ const Home = () => {
                 className="tool-card"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="tool-icon">
+                <div className={`tool-icon tool-dance-${index}`}>
                   <tool.Icon size={40} />
                 </div>
                 <span className="tool-name">{tool.name}</span>
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* CV Section */}
+      <section className="cv-section section">
+        <div className="container cv-content">
+          <div className="cv-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+              <polyline points="10 9 9 9 8 9" />
+            </svg>
+          </div>
+          <h2>
+            <AnimatedText>View My </AnimatedText>
+            <AnimatedText className="accent-text" delay={0.35}>Resume</AnimatedText>
+          </h2>
+          <p>Take a closer look at my qualifications, experience, and skills.</p>
+          <a
+            href={cvContent.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-primary"
+          >
+            View CV
+          </a>
         </div>
       </section>
 
@@ -121,7 +131,7 @@ const Home = () => {
             <AnimatedText>Let&apos;s Work </AnimatedText>
             <AnimatedText className="accent-text" delay={0.45}>Together</AnimatedText>
           </h2>
-          <p>Have a project in mind? I&apos;d love to hear about it.</p>
+          <p>{ctaContent.message}</p>
           <Link to="/contact" className="btn btn-primary">Start a Conversation</Link>
         </div>
       </section>

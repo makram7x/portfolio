@@ -51,18 +51,15 @@ export const heroContent = {
 // About section content
 export const aboutContent = {
   paragraphs: [
-    `I'm a Digital Media graduate from the University of Bahrain with a
-    strong foundation in Mass Communication. My journey in digital media
-    has taken me through diverse experiences - from crafting news content
-    at Bahrain News Agency to hosting TV segments at Bahrain TV.`,
-    `I've also ventured into entrepreneurship, running my own business
-    @bahrain_anime, where I handled everything from branding to customer
-    engagement. This blend of creative and business experience gives me
-    a unique perspective on digital media projects.`,
-    `Currently, I'm focused on UI/UX design and web development, helping
-    clients create meaningful digital experiences that connect with their
-    audiences.`,
+    `I'm a Digital Media graduate from the University of Bahrain with a strong foundation in Mass Communication. My journey in digital media has taken me through diverse experiences - from crafting news content at Bahrain News Agency to creating social media content at Bahrain TV.`,
+    `I've also ventured into entrepreneurship, running my own business @bahrain_anime, where I handled everything from branding to customer engagement. This blend of creative and business experience gives me a unique perspective on digital media projects.`,
+    `Currently, I'm focused on UI/UX design and web development, helping clients create meaningful digital experiences that connect with their audiences.`,
   ],
+};
+
+// CV section content
+export const cvContent = {
+  link: 'https://docs.google.com/document/d/1BWyh6e1umMDoW9WNgcDDZT1Nn_uriEXmDYtQBuNr3JY/edit?tab=t.0',
 };
 
 // CTA section content

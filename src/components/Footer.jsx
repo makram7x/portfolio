@@ -39,7 +39,7 @@ const Footer = () => {
               <EmailIcon size={24} />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/habiba-salah-00718a268/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
@@ -47,7 +47,7 @@ const Footer = () => {
               <LinkedInIcon size={24} />
             </a>
             <a
-              href="https://behance.net"
+              href="https://www.behance.net/habibasalah7"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Behance"
