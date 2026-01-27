@@ -66,6 +66,21 @@ export const featuredProjects = [
     ],
     tools: ['Figma', 'Adobe Creative Suite'],
   },
+  {
+    id: 5,
+    title: 'ICMC Test',
+    subtitle: 'Conference Website Test',
+    date: 'Jan 2026',
+    category: 'Mobile app',
+    description: 'makram is testing',
+    details: [
+      'Testing UX',
+      'Testing aesthetic',
+      'Testing Strong visual principles applied',
+      'whatever',
+    ],
+    tools: ['laptop', 'Testing','whatever'],
+  },
 ];
 
 // Project category colors
