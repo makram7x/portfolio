@@ -6,17 +6,6 @@ import {
   BlenderIcon,
 } from '../components/Icons';
 
-// Technical skills with proficiency levels (percentage)
-export const technicalSkillsList = [
-  { name: 'Web & Mobile UI/UX', level: 90 },
-  { name: 'Graphic Design', level: 85 },
-  { name: 'Social Media Management', level: 88 },
-  { name: 'Video Editing', level: 80 },
-  { name: 'Photography', level: 75 },
-  { name: 'Animation Production', level: 70 },
-  { name: 'Branding', level: 85 },
-];
-
 // Software proficiency with specific tools/items
 export const softwareSkillsList = [
   { name: 'Adobe Creative Suite', Icon: AdobeIcon, items: ['Photoshop', 'Premiere', 'Illustrator'], animation: 'pulse' },

@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { GraduationIcon } from '../components/Icons';
 import AnimatedText from '../components/AnimatedText';
-import { technicalSkillsList, softwareSkillsList, certificatesList, educationInfo } from '../content/education';
+import { softwareSkillsList, certificatesList, educationInfo } from '../content/education';
 import './Education.css';
 
 // Sparkle component for particle effects
@@ -26,29 +26,8 @@ const Sparkles = ({ count = 6 }) => {
 };
 
 const Education = () => {
-  const [skillsVisible, setSkillsVisible] = useState(false);
   const [flippedCards, setFlippedCards] = useState(new Set());
   const [hoveredSoftware, setHoveredSoftware] = useState(null);
-  const skillsRef = useRef(null);
-
-  // Intersection Observer for skills animation
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setSkillsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.3 }
-    );
-
-    if (skillsRef.current) {
-      observer.observe(skillsRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
 
   const handleCardFlip = (index) => {
     setFlippedCards((prev) => {
@@ -180,38 +159,6 @@ const Education = () => {
                     <div className="flip-hint">
                       <span>Click to flip back</span>
                     </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Technical Skills Section */}
-      <section className="skills-section section" ref={skillsRef}>
-        <div className="container">
-          <h2 className="section-title">
-            <AnimatedText>Technical </AnimatedText>
-            <AnimatedText className="accent-text" delay={0.4}>Skills</AnimatedText>
-          </h2>
-
-          <div className="skills-bars">
-            {technicalSkillsList.map((skill, index) => (
-              <div
-                key={skill.name}
-                className={`skill-bar-item ${skillsVisible ? 'animate' : ''}`}
-                style={{ '--delay': `${index * 0.1}s`, '--level': `${skill.level}%` }}
-              >
-                <div className="skill-bar-header">
-                  <span className="skill-bar-name">{skill.name}</span>
-                  <span className="skill-bar-percent">
-                    {skillsVisible ? skill.level : 0}%
-                  </span>
-                </div>
-                <div className="skill-bar-track">
-                  <div className="skill-bar-fill">
-                    <div className="skill-bar-glow"></div>
                   </div>
                 </div>
               </div>
